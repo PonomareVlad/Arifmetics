@@ -2,33 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+          name="viewport">
     <title>Demo</title>
 </head>
 <body>
+<button onclick="test()">Запуск</button>
 <script>
+
     function speech(text) {
         return new Promise((resolve, reject) => {
-            const synth = window.speechSynthesis;
             const utterThis = new SpeechSynthesisUtterance(text);
-            utterThis.onend = function () {
-                resolve();
-            };
-            synth.speak(utterThis);
+            utterThis.onend = () => resolve();
+            speechSynthesis.speak(utterThis);
         });
     }
 
     const later = (delay, value) => new Promise(resolve => setTimeout(resolve, delay, value));
 
-    later(1000)
-        .then(() => speech('Привет, Женя !'))
-        .then(() => later(1000))
-        .then(() => speech('Сколько будет, 2 умножить на 2 ?'))
-        .then(() => later(1000))
-        .then(() => alert('🙂'))
-    ;
+    async function test() {
+        await speech('Привет, Женя !');
+        await later(1000);
+        await speech('Сколько будет, 2 умножить на 2 ?');
+        await later(1000);
+        await alert('🙂');
+    }
 
-    // speech('Привет, женя !').then(() => setTimeout(() => speech('Сколько будет, 2 умножить на 2 ?'), 2000)).then(() => alert('🙂'));
-    // setTimeout(() => speech('Сколько будет, 2 умножить на 2 ?'), 3000);
 </script>
 </body>
 </html>
